@@ -1,38 +1,17 @@
-// Select the element with the specified title
-const elementWithTitle = document.querySelector("nextjs-portal");
-const EXT_ID = 'tylerasa.talaria-server'
+const EXT_ID = "tylerasa.talaria-server";
+
+let text = getErrorFile();
+console.log("text", text);
 
 
-if (elementWithTitle) {
-  // Do something with the element, for example, log its contents
-  const shadowRoot = elementWithTitle.shadowRoot;
-  const el = shadowRoot.querySelectorAll(
-    '[title="Click to open in your editor"]'
-  );
-  el.forEach((element) => {
-    const spanElement = element.querySelector("span");
-    if (spanElement) {
-      const textInsideSpan = spanElement.textContent;
+const parts = text.split(" ");
 
-      let line = getLineChar(textInsideSpan);
-      let file = getFilenameFromString(textInsideSpan);
-      console.log("line", line);
-      console.log("file", file);
+const file = parts[0];
 
-      // vscode://tylerasa.talaria-server?file=app.tsx&line=30
-      let uri = `vscode://${EXT_ID}?file=${file}&line=${line}`
-      window.open(uri);
+const finalPath = getFullPath(file);
 
-    }
-  });
+openUri(text, finalPath);
 
-  // const l = elementWithTitle.querySelector('style');
-  // console.log("l", l);
-} else {
-  console.log("Element not found");
-}
-
-alert("hello");
 
 function getLineChar(text) {
   const matches = text.match(/\((.*?)\)/);
@@ -50,4 +29,63 @@ function getFilenameFromString(str) {
   const filePath = parts[0];
 
   return filePath ?? "";
+}
+
+function getErrorFile() {
+  const elementWithTitle = document.querySelector("nextjs-portal");
+
+  if (elementWithTitle) {
+    const shadowRoot = elementWithTitle.shadowRoot;
+    const el = shadowRoot.querySelectorAll(
+      '[title="Click to open in your editor"]'
+    );
+    let txt = "";
+    el.forEach((element) => {
+      const spanElement = element.querySelector("span");
+      if (spanElement) {
+        // const textInsideSpan = spanElement.textContent;
+        txt = spanElement.textContent;
+        return;
+      }
+    });
+    return txt;
+  }
+  return "Element not found";
+}
+
+function openUri(text, finalPath) {
+  let line = getLineChar(text);
+
+  // vscode://tylerasa.talaria-server?file=app.tsx&line=30
+  let uri = `vscode://${EXT_ID}?file=${finalPath}&line=${line}`;
+  window.open(uri);
+}
+
+function getFullPath(file) {
+  console.log("file", file);
+  const scripts = Array.from(document.getElementsByTagName("script"));
+
+  let found = scripts.filter((spt) => spt.text.includes(file));
+
+  if (found) {
+    let str = found[0].text;
+    let regex = /([^ ]*node_modules[^ ]*)/;
+    const match = str.match(regex);
+
+    if (match) {
+      let rawText = match[0];
+      let regexNM = /\(([^ ]*node_modules)[^ ]*\)/;
+
+      let rawMatch = rawText.match(regexNM);
+      if (rawMatch) {
+        let rawWithNM = rawMatch[1];
+        let finalPath = rawWithNM.replace("node_modules", file);
+        return finalPath;
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
 }
