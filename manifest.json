@@ -8,6 +8,7 @@
 
   },
   "permissions": ["activeTab", "scripting"],
+  "devtools_page": "devtools.html",
   "background": {
     "service_worker": "background.js"
   }
