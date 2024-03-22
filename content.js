@@ -253,3 +253,14 @@ function getVueFilePath() {
 
 getVueFilePath();
 
+
+
+// function getLineChar(text) {
+//   const matches = text.match(/\((.*?)\)/);
+//   if (matches) {
+//     const textInsideBrackets = matches[1];
+//     console.log(textInsideBrackets);
+//     return textInsideBrackets;
+//   }
+//   return "";
+// }
