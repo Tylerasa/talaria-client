@@ -1,23 +1,32 @@
-chrome.action.onClicked.addListener((tab) => {
-  console.log("chrome.devtools", chrome);
-  chrome.scripting.executeScript({
-    target: {tabId: tab.id},
-    files: ['content.js']
-  });
-});
+// chrome.action.onClicked.addListener((tab) => {
+//   chrome.scripting.executeScript({
+//     target: { tabId: tab.id },
+//     files: ["content.js"],
+//   });
+//   chrome.windows.create({
+//     url: "popup.html",
+//     type: "popup",
+//     height: 600, // Adjust the height as needed
+//     width: 400, // Adjust the width as needed
+//   });
+// });
+
+// chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+//   if (message.type === "CONSOLE_LOG") {
+//     console.log(`Captured log from content script: ${message.message} (${message.level})`);
+//     // You can process or store the log messages here
+//   } else if (message.type === "CONTENT_SCRIPT_READY") {
+//     console.log("Content script ready, sending override command");
+//     chrome.tabs.sendMessage(sender.tab.id, { type: "OVERRIDE_CONSOLE" });
+//   }
+// });
 
 
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log("message", message);
-    // Perform an asynchronous operation that might fail
-    chrome.storage.local.set({ someData: message.data }, () => {
-      if (chrome.runtime.lastError) {
-        console.error("Error saving data:", chrome.runtime.lastError.message);
-        // Handle the error (e.g., display a user notification)
-      } else {
-        console.log("Data saved successfully!");
-      }
-    });
-});
-
+// chrome.runtime.onMessage.addListener((msg, sender) => {
+//     // First, validate the message's structure.
+//     if ((msg.from === 'content') && (msg.subject === 'showPageAction')) {
+//       // Enable the page-action for the requesting tab.
+//       chrome.pageAction.show(sender.tab.id);
+//     }
+//   });

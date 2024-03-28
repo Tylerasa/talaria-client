@@ -4,12 +4,18 @@
   "description": "Error line",
   "version": "1.0",
   "action": {
-      "default_title": "Click to show an alert"
+    "default_popup": "popup.html"
 
   },
   "permissions": ["activeTab", "scripting"],
   "devtools_page": "devtools.html",
   "background": {
     "service_worker": "background.js"
-  }
+  },
+  "content_scripts": [
+    {
+      "js": ["content.js"],
+      "matches": ["http://127.0.0.1/*", "http://localhost/*"]
+    }
+  ]
 }

@@ -1,22 +1,22 @@
-// Add a bookmark for www.google.com
-function getLink() {
-  // Check if the element was found
-  // const elementWithTitle = document.querySelector('[title="Click to open in your editor"]');
-
-
-
-  chrome.action.onClicked.addListener((tab) => {
-    chrome.scripting.executeScript({
-      target: {tabId: tab.id},
-      files: ['content.js']
-    });
-  });
-  
-
-
-
+const setDOMInfo = info => {
+  document.getElementById("hello").textContent = info.total
 }
 
-// Add click event listeners to the buttons
-// console.log('document.getElementById("link")', document.getElementById("link"));
-document.getElementById("link").addEventListener("click", getLink);
+window.addEventListener('DOMContentLoaded', () => {
+  // ...query for the active tab...
+  chrome.tabs.query({
+    active: true,
+    currentWindow: true
+  }, tabs => {
+    console.log("tabs", tabs);
+    // ...and send a request for the DOM info...
+    chrome.tabs.sendMessage(
+        tabs[0].id,
+        {from: 'popup', subject: 'DOMInfo'},
+        {},
+        setDOMInfo
+        // ...also specifying a callback to be called 
+        //    from the receiving end (content script).
+        );
+  });
+});

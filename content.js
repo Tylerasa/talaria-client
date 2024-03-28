@@ -1,4 +1,3 @@
-// console.log("<==>");
 // console.log("chrome.devtools", chrome);
 
 // const EXT_ID = "tylerasa.talaria-server";
@@ -202,12 +201,18 @@
 // vue
 
 function getVueFilePath() {
+  let errors = []
   // const scripts = document.querySelectorAll('iframe');
   const iframeList = document.querySelectorAll("iframe");
   if (iframeList) {
     const iframe = iframeList[0].contentDocument;
 
+    console.log("running", iframe.body);
+
+    // const iframeHtml = iframe[0].
+    // console.log("iframeHtml", iframeHtml);
     const divElement = iframe.getElementsByTagName("u");
+    console.log("divElement", divElement);
     for (var i = 0; i < divElement.length; i++) {
       var underlineElement = divElement[i];
       console.log("underlineElement", underlineElement);
@@ -216,21 +221,26 @@ function getVueFilePath() {
       // For example, you can access innerHTML:
       console.log("Content of <u> element:", underlineElement.innerHTML);
       var parentElement = underlineElement.parentElement;
-    
+
       // Get the sibling of the parent element
       var siblingOfParent = parentElement.nextElementSibling;
-      
+
       // Traverse through the children of the sibling of the parent element
       var children = siblingOfParent.children;
       for (var j = 0; j < children.length; j++) {
-          var child = children[j];
-          
-          // Check if the child has the style color: #E36049;
-          var computedStyle = window.getComputedStyle(child);
-          if (computedStyle.opacity === "0.5") {
-              console.log("Element with color #E36049:", child);
-              break;
-          }
+        var child = children[j];
+
+        // Check if the child has the style color: #E36049;
+        var computedStyle = window.getComputedStyle(child);
+        if (computedStyle.opacity === "0.5") {
+          console.log("Element with color #E36049:", child);
+          let data = {
+            file: underlineElement.innerHTML,
+            line: child.innerHTML,
+          };
+          errors.push(data)
+          break;
+        }
       }
     }
     // console.log("divElement", divElement.textContent);
@@ -253,7 +263,18 @@ function getVueFilePath() {
 
 getVueFilePath();
 
+// chrome.runtime.sendMessage({
+//   from: 'content',
+//   subject: 'showPageAction',
+// });
 
+chrome.runtime.onMessage.addListener((msg, sender, response) => {
+  let info = {
+    total: 1,
+  };
+  response(info);
+  console.log("msg, sender, response", msg, sender, response);
+});
 
 // function getLineChar(text) {
 //   const matches = text.match(/\((.*?)\)/);
