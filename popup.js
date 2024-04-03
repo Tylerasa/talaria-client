@@ -1,22 +1,54 @@
-const setDOMInfo = info => {
-  document.getElementById("hello").textContent = info.total
-}
+const EXT_ID = "tylerasa.talaria-server";
 
-window.addEventListener('DOMContentLoaded', () => {
-  // ...query for the active tab...
-  chrome.tabs.query({
-    active: true,
-    currentWindow: true
-  }, tabs => {
-    console.log("tabs", tabs);
-    // ...and send a request for the DOM info...
-    chrome.tabs.sendMessage(
+const setDOMInfo = (errors) => {
+  console.log("errors", errors);
+  errors.map((err) => {
+    const { file, line } = err;
+    let list = document.getElementById("list");
+
+    var newListItem = document.createElement("li");
+    newListItem.className = "item";
+
+    var h3Element = document.createElement("h3");
+    h3Element.className = "line-number";
+    h3Element.textContent = line;
+    newListItem.appendChild(h3Element);
+
+    var aElement = document.createElement("a");
+    aElement.href = `vscode://${EXT_ID}?file=${file}&line=${line}`
+    aElement.style.marginTop = "4px";
+    aElement.className = "file";
+    aElement.textContent = file;
+    newListItem.appendChild(aElement);
+
+    list.appendChild(newListItem);
+  });
+};
+
+window.addEventListener("DOMContentLoaded", () => triggerCall());
+document
+  .getElementById("button")
+  .addEventListener("click", () => triggerCall());
+
+const triggerCall = () => {
+  var list = document.getElementById("list");
+
+  while (list.firstChild) {
+    element.removeChild(list.firstChild);
+  }
+
+  chrome.tabs.query(
+    {
+      active: true,
+      currentWindow: true,
+    },
+    (tabs) => {
+      chrome.tabs.sendMessage(
         tabs[0].id,
-        {from: 'popup', subject: 'DOMInfo'},
+        { from: "popup", subject: "DOMInfo" },
         {},
         setDOMInfo
-        // ...also specifying a callback to be called 
-        //    from the receiving end (content script).
-        );
-  });
-});
+      );
+    }
+  );
+};

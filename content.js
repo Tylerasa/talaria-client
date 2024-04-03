@@ -200,17 +200,15 @@
 
 // vue
 
+window.onload = function() {
+  let errors = [];
 function getVueFilePath() {
-  let errors = []
   // const scripts = document.querySelectorAll('iframe');
   const iframeList = document.querySelectorAll("iframe");
   if (iframeList) {
     const iframe = iframeList[0].contentDocument;
 
-    console.log("running", iframe.body);
-
-    // const iframeHtml = iframe[0].
-    // console.log("iframeHtml", iframeHtml);
+  
     const divElement = iframe.getElementsByTagName("u");
     console.log("divElement", divElement);
     for (var i = 0; i < divElement.length; i++) {
@@ -238,7 +236,7 @@ function getVueFilePath() {
             file: underlineElement.innerHTML,
             line: child.innerHTML,
           };
-          errors.push(data)
+          errors.push(data);
           break;
         }
       }
@@ -262,19 +260,18 @@ function getVueFilePath() {
 }
 
 getVueFilePath();
+console.log("errors", errors);
 
-// chrome.runtime.sendMessage({
-//   from: 'content',
-//   subject: 'showPageAction',
-// });
+
 
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
-  let info = {
-    total: 1,
-  };
-  response(info);
+  console.log("errors", errors);
+
+  response(errors);
+
   console.log("msg, sender, response", msg, sender, response);
 });
+}
 
 // function getLineChar(text) {
 //   const matches = text.match(/\((.*?)\)/);
