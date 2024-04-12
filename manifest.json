@@ -7,10 +7,6 @@
     "default_popup": "popup.html"
   },
   "permissions": ["activeTab", "scripting", "tabs"],
-  "devtools_page": "devtools.html",
-  "background": {
-    "service_worker": "background.js"
-  },
   "content_scripts": [
     {
       "js": ["src/js/content_script.js"],
@@ -20,7 +16,7 @@
   "web_accessible_resources": [
     {
       "resources": ["src/js/*"],
-      "matches": ["<all_urls>"]
+      "matches": ["http://127.0.0.1/*", "http://localhost/*"]
     }
   ]
 }

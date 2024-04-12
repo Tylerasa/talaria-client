@@ -40,33 +40,4 @@ export function main() {
     default:
       break;
   }
-
-  // function getAppJsFilePath() {
-  //   // const scripts = document.querySelectorAll('iframe');
-  //   const iframeList = document.querySelectorAll("iframe");
-  //   if (iframeList) {
-  //     const iframe = iframeList[0].contentDocument;
-
-  //     const divElement = iframe.querySelector(
-  //       'div[style="line-height: 1.5; font-size: 1rem; font-family: Menlo, Consolas, monospace;"]'
-  //     );
-  //     console.log("divElement", divElement.textContent);
-  //     const jsFile = getPath(divElement.textContent);
-  //     const appJsFileUrl = new URL(jsFile, window.location);
-  //     console.log("appJsFileUrl", window);
-  //     // chrome.runtime.sendMessage({ type: 'appJsFilePath', data: appJsFileUrl.href });
-  //   }
-  //   // for (const script of scripts) {
-  //   //   const src = script.src;
-  //   //   console.log("src", src);
-  //   //   // if (src.includes('App.js')) {
-  //   //     const appJsFileUrl = new URL(src, window.location.href);
-  //   //     console.log("appJsFileUrl", appJsFileUrl);
-  //   //     chrome.runtime.sendMessage({ type: 'appJsFilePath', data: appJsFileUrl.href });
-  //   //     break;
-  //   //   // }
-  //   // }
-  // }
-
-  // getAppJsFilePath();
 }

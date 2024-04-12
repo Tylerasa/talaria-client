@@ -1,1 +1,0 @@
-- next without app router 
