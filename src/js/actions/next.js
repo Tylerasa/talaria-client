@@ -2,7 +2,6 @@ export function isNext() {
   let errors = [];
   getErrorFile()
     .then((result) => {
-      console.log("Error file:", result);
       if (result !== "Element not found") {
         const parts = result.split(" ");
         const file = parts[0];
@@ -13,15 +12,12 @@ export function isNext() {
           line,
         });
 
-        console.log("finalPath", finalPath);
-        // openUri(text, finalPath);
       }
     })
     .catch((error) => {
       console.error("Error:", error);
     })
     .finally(() => {
-      console.log("finally", errors);
       chrome.runtime.onMessage.addListener((msg, sender, response) => {
         response(errors);
       });
@@ -32,7 +28,6 @@ function getLineChar(text) {
   const matches = text.match(/\((.*?)\)/);
   if (matches) {
     const textInsideBrackets = matches[1];
-    console.log(textInsideBrackets);
     return textInsideBrackets;
   }
   return "";
@@ -42,11 +37,9 @@ function getErrorFile() {
 
   if (elementWithTitle) {
     const shadowRoot = elementWithTitle.shadowRoot;
-    console.log("shadowRoot", shadowRoot.childNodes);
 
     return new Promise((resolve) => {
       const observer = new MutationObserver(function (mutations) {
-        console.log("mutations", mutations);
 
         for (const mutation of mutations) {
           if (mutation.type === "childList") {
@@ -56,7 +49,6 @@ function getErrorFile() {
               );
               if (el) {
                 const spanElement = el.querySelector("span");
-                console.log("spanElement", spanElement);
 
                 if (spanElement) {
                   observer.disconnect();

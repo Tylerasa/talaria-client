@@ -1,7 +1,6 @@
 export function isVue() {
   let errors = [];
 
-  console.log("is vue");
   const iframeList = document.querySelectorAll("iframe");
   if (iframeList) {
     const iframe = iframeList[0].contentDocument;
@@ -25,7 +24,6 @@ export function isVue() {
             file: underlineElement.innerHTML,
             line: child.innerHTML,
           };
-          console.log("data", data);
 
           errors.push(data);
           break;
@@ -34,11 +32,7 @@ export function isVue() {
     }
   }
 
-  console.log("in error", errors);
-  console.log(" chrome.runtime",  chrome.runtime.onMessage.addListener((msg, sender)=> console.log("he", msg, sender)));
   chrome.runtime.onMessage.addListener((msg, sender, response) => {
-    console.log("out error", errors);
-
     response(errors);
   });
 }

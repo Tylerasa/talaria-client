@@ -1,10 +1,7 @@
 const EXT_ID = "tylerasa.talaria-server";
-console.log("popup", chrome)
-
 
 
 const setDOMInfo = (errors) => {
-  console.log("errors", errors);
   errors.map((err) => {
     const { file, line } = err;
     let list = document.getElementById("list");
