@@ -1,4 +1,7 @@
 const EXT_ID = "tylerasa.talaria-server";
+console.log("popup", chrome)
+
+
 
 const setDOMInfo = (errors) => {
   console.log("errors", errors);
@@ -25,10 +28,10 @@ const setDOMInfo = (errors) => {
   });
 };
 
-window.addEventListener("DOMContentLoaded", () => triggerCall());
-document
-  .getElementById("button")
-  .addEventListener("click", () => triggerCall());
+// window.addEventListener("DOMContentLoaded", () => triggerCall());
+// document
+//   .getElementById("button")
+//   .addEventListener("click", () => triggerCall());
 
 const triggerCall = () => {
   var list = document.getElementById("list");
@@ -52,3 +55,5 @@ const triggerCall = () => {
     }
   );
 };
+
+triggerCall()

@@ -6,17 +6,21 @@
   "action": {
     "default_popup": "popup.html"
   },
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "tabs"],
   "devtools_page": "devtools.html",
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "js": ["content.js"],
-      "matches": ["http://127.0.0.1/*", "http://localhost/*"],
-      "runAt": "document_idle",
-      "all_frames": true
+      "js": ["src/js/content_script.js"],
+      "matches": ["http://127.0.0.1/*", "http://localhost/*"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["src/js/*"],
+      "matches": ["<all_urls>"]
     }
   ]
 }
