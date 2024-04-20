@@ -25,10 +25,6 @@ const setDOMInfo = (errors) => {
   });
 };
 
-// window.addEventListener("DOMContentLoaded", () => triggerCall());
-// document
-//   .getElementById("button")
-//   .addEventListener("click", () => triggerCall());
 
 const triggerCall = () => {
   var list = document.getElementById("list");
