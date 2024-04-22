@@ -2,32 +2,25 @@ export function isVue() {
   let errors = [];
 
   const iframeList = document.querySelectorAll("iframe");
-  if (iframeList) {
+  if (iframeList.length > 0) {
     const iframe = iframeList[0].contentDocument;
 
-    const divElement = iframe.getElementsByTagName("u");
+    const underlineElements = iframe.getElementsByTagName("u");
 
-    for (var i = 0; i < divElement.length; i++) {
-      var underlineElement = divElement[i];
+    for (let underlineElement of underlineElements) {
+      const parentElement = underlineElement.parentElement;
+      const siblingOfParent = parentElement.nextElementSibling;
 
-      var parentElement = underlineElement.parentElement;
+      const targetChild = Array.from(siblingOfParent.children).find((child) => {
+        const computedStyle = window.getComputedStyle(child);
+        return computedStyle.opacity === "0.5";
+      });
 
-      var siblingOfParent = parentElement.nextElementSibling;
-
-      var children = siblingOfParent.children;
-      for (var j = 0; j < children.length; j++) {
-        var child = children[j];
-
-        var computedStyle = window.getComputedStyle(child);
-        if (computedStyle.opacity === "0.5") {
-          let data = {
-            file: underlineElement.innerHTML,
-            line: child.innerHTML,
-          };
-
-          errors.push(data);
-          break;
-        }
+      if (targetChild) {
+        errors.push({
+          file: underlineElement.innerHTML,
+          line: targetChild.innerHTML,
+        });
       }
     }
   }
