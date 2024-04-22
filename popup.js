@@ -1,6 +1,5 @@
 const EXT_ID = "tylerasa.talaria-server";
 
-
 const setDOMInfo = (errors) => {
   errors.map((err) => {
     const { file, line } = err;
@@ -13,18 +12,22 @@ const setDOMInfo = (errors) => {
     h3Element.className = "line-number";
     h3Element.textContent = line;
     newListItem.appendChild(h3Element);
-
+    
     var aElement = document.createElement("a");
-    aElement.href = `vscode://${EXT_ID}?file=${file}&line=${line}`
     aElement.style.marginTop = "4px";
     aElement.className = "file";
     aElement.textContent = file;
     newListItem.appendChild(aElement);
 
+    aElement.addEventListener("click", function (event) {
+      event.preventDefault();
+      var vscodeUrl = `vscode://${EXT_ID}?file=${file}&line=${line}`;
+      window.open(vscodeUrl);
+    });
+
     list.appendChild(newListItem);
   });
 };
-
 
 const triggerCall = () => {
   var list = document.getElementById("list");
@@ -49,4 +52,4 @@ const triggerCall = () => {
   );
 };
 
-triggerCall()
+triggerCall();
