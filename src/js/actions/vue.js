@@ -20,6 +20,8 @@ export function isVue() {
         errors.push({
           file: underlineElement.innerHTML,
           line: targetChild.innerHTML,
+          framework: "vue"
+
         });
       }
     }

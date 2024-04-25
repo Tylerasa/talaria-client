@@ -9,8 +9,8 @@ export function isNext() {
         errors.push({
           file,
           line,
+          framework: "next",
         });
-
       }
     })
     .catch((error) => {
@@ -39,7 +39,6 @@ function getErrorFile() {
 
     return new Promise((resolve) => {
       const observer = new MutationObserver(function (mutations) {
-
         for (const mutation of mutations) {
           if (mutation.type === "childList") {
             for (const node of mutation.addedNodes) {
