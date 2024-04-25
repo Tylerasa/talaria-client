@@ -5,10 +5,9 @@ export function isNext() {
       if (result !== "Element not found") {
         const parts = result.split(" ");
         const file = parts[0];
-        const finalPath = getFullPath(file);
         let line = getLineChar(result);
         errors.push({
-          file: finalPath,
+          file,
           line,
         });
 
@@ -65,33 +64,5 @@ function getErrorFile() {
     });
   } else {
     return Promise.resolve("Element not found");
-  }
-}
-
-function getFullPath(file) {
-  const scripts = Array.from(document.getElementsByTagName("script"));
-
-  let found = scripts.filter((spt) => spt.text.includes(file));
-
-  if (found) {
-    let str = found[0].text;
-    let regex = /([^ ]*node_modules[^ ]*)/;
-    const match = str.match(regex);
-
-    if (match) {
-      let rawText = match[0];
-      let regexNM = /\(([^ ]*node_modules)[^ ]*\)/;
-
-      let rawMatch = rawText.match(regexNM);
-      if (rawMatch) {
-        let rawWithNM = rawMatch[1];
-        let finalPath = rawWithNM.replace("node_modules", file);
-        return finalPath;
-      } else {
-        return null;
-      }
-    } else {
-      return null;
-    }
   }
 }

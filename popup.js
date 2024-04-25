@@ -1,5 +1,7 @@
 const EXT_ID = "tylerasa.talaria-server";
 
+
+// vscode://tylerasa.talaria-server?file=/Users/mac/Desktop/talaria-dev/vue-test/src/App.vue&line=10
 const setDOMInfo = (errors) => {
   errors.map((err) => {
     const { file, line } = err;
