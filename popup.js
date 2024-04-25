@@ -1,34 +1,35 @@
-const EXT_ID = "tylerasa.talaria-server";
+const EXT_ID = "sylvestersarpong.talaria-server";
 
-
-// vscode://tylerasa.talaria-server?file=/Users/mac/Desktop/talaria-dev/vue-test/src/App.vue&line=10
+// vscode://sylvestersarpong.talaria-server?file=app/dashboard/organizations/[id]/groups/[gid]/images/page.tsx&line=10&framework=next
 const setDOMInfo = (errors) => {
-  errors.map((err) => {
-    const { file, line } = err;
-    let list = document.getElementById("list");
+  if (errors) {
+    errors.map((err) => {
+      const { file, line, framework } = err;
+      let list = document.getElementById("list");
 
-    var newListItem = document.createElement("li");
-    newListItem.className = "item";
+      var newListItem = document.createElement("li");
+      newListItem.className = "item";
 
-    var h3Element = document.createElement("h3");
-    h3Element.className = "line-number";
-    h3Element.textContent = line;
-    newListItem.appendChild(h3Element);
-    
-    var aElement = document.createElement("a");
-    aElement.style.marginTop = "4px";
-    aElement.className = "file";
-    aElement.textContent = file;
-    newListItem.appendChild(aElement);
+      var h3Element = document.createElement("h3");
+      h3Element.className = "line-number";
+      h3Element.textContent = line;
+      newListItem.appendChild(h3Element);
 
-    aElement.addEventListener("click", function (event) {
-      event.preventDefault();
-      var vscodeUrl = `vscode://${EXT_ID}?file=${file}&line=${line}`;
-      window.open(vscodeUrl);
+      var aElement = document.createElement("a");
+      aElement.style.marginTop = "4px";
+      aElement.className = "file";
+      aElement.textContent = file;
+      newListItem.appendChild(aElement);
+
+      aElement.addEventListener("click", function (event) {
+        event.preventDefault();
+        var vscodeUrl = `vscode://${EXT_ID}?file=${file}&line=${line}&framework=${framework}`;
+        window.open(vscodeUrl);
+      });
+
+      list.appendChild(newListItem);
     });
-
-    list.appendChild(newListItem);
-  });
+  }
 };
 
 const triggerCall = () => {
