@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Talaria",
-  "description": "An extension that enables developers to swiftly navigate to error lines within Visual Studio Code, streamlining the debugging process.",
+  "description": "An extension that enables developers to swiftly navigate to error lines within Visual Studio Code.",
   "version": "1.0",
   "action": {
     "default_popup": "popup.html"
