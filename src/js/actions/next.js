@@ -5,12 +5,16 @@ export function isNext() {
       if (result !== "Element not found") {
         let file, line;
         if (result.startsWith("./")) {
-          let text = result.substring(2) 
-          let firstColonIndex = text.indexOf(":");
+          let text = result.substring(2);
+          if (text.indexOf(":") === text.lastIndexOf(":")) {
+            file = text;
+          } else {
+            let firstColonIndex = text.indexOf(":");
 
-          file = text.substring(0, firstColonIndex);
+            file = text.substring(0, firstColonIndex);
 
-          line = text.substring(firstColonIndex + 1);
+            line = text.substring(firstColonIndex + 1);
+          }
         } else {
           const parts = result.split(" ");
           file = parts[0];
@@ -67,9 +71,16 @@ function getErrorFile() {
     const errorFileElement = shadowRoot.querySelector("[role=link]");
     if (errorFileElement) {
       const filePath = errorFileElement.textContent;
-      return Promise.resolve(
-        filePath
-      );
+      return Promise.resolve(filePath);
+    }
+  }
+
+  if(shadowRoot.innerHTML.includes("Failed to compile")){
+    let preEle = shadowRoot.querySelector("pre")
+    if(preEle && preEle.firstChild){
+      const filePath = preEle.firstChild.textContent;
+      return Promise.resolve(filePath);
+
     }
   }
 
