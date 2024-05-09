@@ -4,9 +4,6 @@ const EXT_ID = "sylvestersarpong.talaria-server";
 const setDOMInfo = (errors) => {
 
   if (errors) {
-    // chrome.action.setBadgeText({ text: errors.length.toString() });
-    // chrome.action.setBadgeBackgroundColor({ color: "#2ecc71" });
-    // chrome.action.setBadgeTextColor({ color: "#fff" });
 
     errors.map((err) => {
       const { file, line, framework } = err;
@@ -34,10 +31,6 @@ const setDOMInfo = (errors) => {
 
       list.appendChild(newListItem);
     });
-  }else{
-    // chrome.action.setBadgeText({ text: "" });
-    // chrome.action.setBadgeBackgroundColor({ color:[0, 0, 0, 0] });
-    // chrome.action.setBadgeTextColor({ color:[0, 0, 0, 0] });
   }
 };
 

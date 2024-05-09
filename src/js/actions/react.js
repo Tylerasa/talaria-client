@@ -7,8 +7,32 @@ export function isReact() {
 
     const spans = iframe.querySelectorAll("span");
 
-    const targetSpan = Array.from(spans).find((span) =>
-      span.textContent.includes("Line ")
+    const allElements = iframe.getElementsByTagName("*");
+    const matchingElements = [];
+
+    for (let element of allElements) {
+      const color = window.getComputedStyle(element).color;
+      if (color === "rgb(232, 59, 70)") {
+        matchingElements.push(element);
+      }
+    }
+
+
+    matchingElements.map((ele) => {
+      let d = extractFilePathDetails(ele.textContent);
+      if (d) {
+        errors.push({
+          file: d.file,
+          line: d.line,
+          framework: "react",
+        });
+      }
+    });
+
+    const targetSpan = Array.from(spans).find(
+      (span) =>
+        span.textContent.includes("Line ") ||
+        span.style.color === "rgb(232, 59, 70)"
     );
 
     if (targetSpan) {
@@ -25,12 +49,9 @@ export function isReact() {
       errors.push({
         file,
         line,
-        framework: "react"
-
+        framework: "react",
       });
-    } else {
-      console.log("Element with the specified text content not found.");
-    }
+    } 
   }
 
   chrome.runtime.onMessage.addListener((msg, sender, response) => {
@@ -41,4 +62,21 @@ export function isReact() {
 function getFile(str) {
   const substring = str.match(/\S+\.\S+/)[0];
   return substring;
+}
+
+function extractFilePathDetails(inputString) {
+  const regex = /([^ ]+):(\d+:\d+)/;
+  const match = regex.exec(inputString);
+
+  if (match) {
+    const filePath = match[1];
+    const lineColumn = match[2];
+
+    return {
+      file: filePath,
+      line: lineColumn,
+    };
+  } else {
+    return null;
+  }
 }
